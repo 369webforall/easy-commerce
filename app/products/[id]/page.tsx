@@ -1,7 +1,16 @@
-import React from "react";
+import { ProductDetail } from "@/components/generals/product-detail";
+import { stripe } from "@/lib/stripe";
 
-const ProductDetails = () => {
-  return <div>ProductDetails</div>;
-};
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params; // {id:dfasdfsa}
+  const product = await stripe.products.retrieve(id, {
+    expand: ["default_price"],
+  });
 
-export default ProductDetails;
+  const plainProduct = JSON.parse(JSON.stringify(product));
+  return <ProductDetail product={plainProduct} />;
+}
