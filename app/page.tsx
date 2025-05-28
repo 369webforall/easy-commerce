@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { stripe } from "@/lib/stripe";
+import { Carousel } from "@/components/generals/carousel";
 
 const Home = async () => {
   const products = await stripe.products.list({
     expand: ["data.default_price"],
-    limit: 2,
+    limit: 5,
   });
 
   return (
@@ -43,7 +44,9 @@ const Home = async () => {
           />
         </div>
       </section>
-      <section className="py-8">Image Scroller</section>
+      <section className="py-8">
+        <Carousel products={products.data} />
+      </section>
     </div>
   );
 };
